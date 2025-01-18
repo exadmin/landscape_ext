@@ -1,0 +1,18 @@
+item:
+  name: TestItem
+  homepage_url: https://google.com/home
+  project: sandbox
+  repo_url: https://google.com
+  logo: akri.svg
+  twitter: https://google.com
+  crunchbase: https://google.com
+  extra:
+    accepted: '2021-09-14'
+    annual_review_date: '2023-06-13'
+    annual_review_url: https://google.com
+    dev_stats_url: https://google.com
+    blog_url: https://google.com
+    artwork_url: https://google.com
+    slack_url: https://google.com
+    chat_channel: '#akri'
+    clomonitor_name: akrie
