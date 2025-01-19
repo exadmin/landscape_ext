@@ -2,14 +2,11 @@ package com.github.exadmin.utils;
 
 import org.apache.commons.cli.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static com.github.exadmin.utils.CmdLineArgument.*;
 
 public class CommandLineHelper {
     private String[] args;
-    private Map<CmdLineArgument, String> argValuesMap = new HashMap<>();
+    private CommandLine cmdLine;
 
     public CommandLineHelper(String[] args) {
         this.args = args;
@@ -19,7 +16,7 @@ public class CommandLineHelper {
         CommandLineParser clParser = new DefaultParser();
         Options options = new Options();
         {
-            Option baseFile = Option.builder()
+            Option primFile = Option.builder()
                     .argName("primary landscape configuration file")
                     .hasArg(true)
                     .longOpt(PRIMARY_FILE.toString())
@@ -43,7 +40,7 @@ public class CommandLineHelper {
                     .desc("Result configuration will be written in the specified file (override mode is used)")
                     .build();
 
-            options.addOption(baseFile);
+            options.addOption(primFile);
             options.addOption(readDir);
             options.addOption(resultFile);
         }
@@ -51,10 +48,9 @@ public class CommandLineHelper {
         boolean isErrorExist = false;
 
         try {
-            CommandLine cmdLine = clParser.parse(options, args);
-            argValuesMap.put(PATH_TO_SCAN, cmdLine.getOptionValue(PATH_TO_SCAN.toString()));
+            this.cmdLine = clParser.parse(options, args);
         } catch (Exception ex) {
-            MyLogger.error(ex.toString());
+            ex.printStackTrace();
             isErrorExist = true;
         }
 
@@ -70,6 +66,6 @@ public class CommandLineHelper {
     }
 
     public String getValue(CmdLineArgument argName) {
-        return argValuesMap.get(argName);
+        return cmdLine.getOptionValue(argName.toString());
     }
 }

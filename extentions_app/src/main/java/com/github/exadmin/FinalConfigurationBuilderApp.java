@@ -33,12 +33,15 @@ public class FinalConfigurationBuilderApp {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         // Step1: read original landscape.yml file and fetch Categories & Subcategories
-        String primaryFile = cmdHelper.getValue(CmdLineArgument.PRIMARY_FILE);
+        String primaryFileName = cmdHelper.getValue(CmdLineArgument.PRIMARY_FILE);
+        File primaryFile = new File(primaryFileName);
+
         TheLandscape primaryModel = null;
         try {
-             primaryModel = mapper.readValue(new File(primaryFile), TheLandscape.class);
+             primaryModel = mapper.readValue(primaryFile, TheLandscape.class);
         } catch (Exception ex) {
-            MyLogger.warn("Primary model of landscape2 format can be found/read. Terminating. Exception is " + ex);
+            MyLogger.error("Primary model of landscape2 format can't be found/read. Terminating.");
+            ex.printStackTrace();
             System.exit(-1);
         }
 
@@ -49,18 +52,27 @@ public class FinalConfigurationBuilderApp {
             MyLogger.error("No additional *.yml files were found at " + rootDir);
         }
 
+        // We should skip primary file which may be collected in PATH_TO_SCAN dir
+
 
         List<TheLandscape> allModels = new ArrayList<>(collectedYamls.size());
-        for (String nextFile : collectedYamls) {
+        for (String nextFileName : collectedYamls) {
             try {
-                MyLogger.debug("Reading additional configuration at " + nextFile);
-                TheLandscape nextModel = mapper.readValue(new File(nextFile), TheLandscape.class);
+                File secondaryFile = new File(nextFileName);
+                if (primaryFile.equals(secondaryFile)) {
+                    MyLogger.debug("Skip primary file from list of secondaries");
+                    continue;
+                }
+
+                MyLogger.debug("Reading additional configuration at " + nextFileName);
+                TheLandscape nextModel = mapper.readValue(secondaryFile, TheLandscape.class);
 
                 MyLogger.debug("Merging additional configuration...");
                 primaryModel.mergeValuesFrom(nextModel);
                 MyLogger.debug("Merged");
             } catch (Exception ex) {
                 MyLogger.warn("File can't be read in landscape2 format. Skipping. Exception is " + ex);
+                ex.printStackTrace();
             }
         }
 

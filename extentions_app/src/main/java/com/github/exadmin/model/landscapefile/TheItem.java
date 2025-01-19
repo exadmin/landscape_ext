@@ -57,7 +57,7 @@ public class TheItem extends AutoMergeable {
     private String branch;
 
     @JsonProperty("organization")
-    private InOrganization organization;
+    private TheOrganization organization;
 
     @JsonProperty("unnamed_organization")
     private Boolean unnamedOrganization;
@@ -153,7 +153,7 @@ public class TheItem extends AutoMergeable {
         return unnamedOrganization;
     }
 
-    public InOrganization getOrganization() {
+    public TheOrganization getOrganization() {
         return organization;
     }
 

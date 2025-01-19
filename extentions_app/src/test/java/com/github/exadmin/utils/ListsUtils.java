@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListstUtils {
+public class ListsUtils {
 
     /**
      * Compares two arrays that they contain same-value elements.

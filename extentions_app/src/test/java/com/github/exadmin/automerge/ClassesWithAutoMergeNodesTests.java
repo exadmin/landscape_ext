@@ -1,7 +1,7 @@
 package com.github.exadmin.automerge;
 
 import com.github.exadmin.model.automerge.AutoMergeable;
-import com.github.exadmin.utils.ListstUtils;
+import com.github.exadmin.utils.ListsUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -148,6 +148,6 @@ public class ClassesWithAutoMergeNodesTests {
             actNames.add(childObj.getName());
         }
 
-        ListstUtils.assertListsSimilar(expNames, actNames);
+        ListsUtils.assertListsSimilar(expNames, actNames);
     }
 }

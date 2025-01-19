@@ -25,6 +25,7 @@ public abstract class AutoMergeable {
             mergeFromThrowException(other);
         } catch (IllegalAccessException ex) {
             MyLogger.error("Error while merging other = " + other + " values into this = " + this + ". Exception = " + ex);
+            ex.printStackTrace();
             throw new IllegalStateException(ex);
         }
     }
@@ -52,7 +53,9 @@ public abstract class AutoMergeable {
 
 
                 // if List of Automergeable
-                if (isAutoMerable(field)) {
+                if (isAutoMergeable(field)) {
+                    if (otherList == null) continue;
+
                     for (Object otherObj : otherList) {
                         AutoMergeable otherAMObj = (AutoMergeable) otherObj;
 
@@ -73,9 +76,11 @@ public abstract class AutoMergeable {
                     }
 
                 } else {
-                    for (Object otherObj : otherList) {
-                        if (!thisList.contains(otherObj)) {
-                            thisList.add(otherObj);
+                    if (otherList != null) {
+                        for (Object otherObj : otherList) {
+                            if (!thisList.contains(otherObj)) {
+                                thisList.add(otherObj);
+                            }
                         }
                     }
                 }
@@ -91,7 +96,7 @@ public abstract class AutoMergeable {
         }
     }
 
-    private static boolean isAutoMerable(Field field) {
+    private static boolean isAutoMergeable(Field field) {
 
         Type type = field.getGenericType();
         if (type instanceof ParameterizedType) {

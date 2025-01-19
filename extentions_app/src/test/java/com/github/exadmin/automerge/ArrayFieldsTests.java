@@ -1,7 +1,7 @@
 package com.github.exadmin.automerge;
 
 import com.github.exadmin.model.automerge.AutoMergeable;
-import com.github.exadmin.utils.ListstUtils;
+import com.github.exadmin.utils.ListsUtils;
 import org.junit.Test;
 
 import java.util.List;
@@ -32,39 +32,39 @@ public class ArrayFieldsTests {
 
     @Test
     public void mergeStringArraysDifferentValuesEverywhere() {
-        List<String> obj1Field1 = ListstUtils.asList("10000", "20000", "30000");
-        List<String> obj1Field2 = ListstUtils.asList("aaa", "bbb", "ccc");
+        List<String> obj1Field1 = ListsUtils.asList("10000", "20000", "30000");
+        List<String> obj1Field2 = ListsUtils.asList("aaa", "bbb", "ccc");
         TheTestClass obj1 = new TheTestClass(obj1Field1, obj1Field2);
 
-        List<String> obj2Field1 = ListstUtils.asList("11111", "22222", "33333");
-        List<String> obj2Field2 = ListstUtils.asList("aaaaa", "bbbbb", "ccccc");
+        List<String> obj2Field1 = ListsUtils.asList("11111", "22222", "33333");
+        List<String> obj2Field2 = ListsUtils.asList("aaaaa", "bbbbb", "ccccc");
         TheTestClass obj2 = new TheTestClass(obj2Field1, obj2Field2);
 
-        List<String> expObj1Field1 = ListstUtils.asList("10000", "20000", "30000", "11111", "22222", "33333");
-        List<String> expObj1Field2 = ListstUtils.asList("aaa", "bbb", "ccc", "aaaaa", "bbbbb", "ccccc");
+        List<String> expObj1Field1 = ListsUtils.asList("10000", "20000", "30000", "11111", "22222", "33333");
+        List<String> expObj1Field2 = ListsUtils.asList("aaa", "bbb", "ccc", "aaaaa", "bbbbb", "ccccc");
 
         obj1.mergeValuesFrom(obj2);
 
-        ListstUtils.assertListsSimilar(expObj1Field1, obj1.getField1());
-        ListstUtils.assertListsSimilar(expObj1Field2, obj1.getField2());
+        ListsUtils.assertListsSimilar(expObj1Field1, obj1.getField1());
+        ListsUtils.assertListsSimilar(expObj1Field2, obj1.getField2());
     }
 
     @Test
     public void mergeStringArraysSameValuesExist() {
-        List<String> obj1Field1 = ListstUtils.asList("10000", "20000", "30000");
-        List<String> obj1Field2 = ListstUtils.asList("aaa", "bbb", "ccc");
+        List<String> obj1Field1 = ListsUtils.asList("10000", "20000", "30000");
+        List<String> obj1Field2 = ListsUtils.asList("aaa", "bbb", "ccc");
         TheTestClass obj1 = new TheTestClass(obj1Field1, obj1Field2);
 
-        List<String> obj2Field1 = ListstUtils.asList("11111", "20000", "33333");
-        List<String> obj2Field2 = ListstUtils.asList("aaaaa", "bbbbb", "ccc");
+        List<String> obj2Field1 = ListsUtils.asList("11111", "20000", "33333");
+        List<String> obj2Field2 = ListsUtils.asList("aaaaa", "bbbbb", "ccc");
         TheTestClass obj2 = new TheTestClass(obj2Field1, obj2Field2);
 
-        List<String> expObj1Field1 = ListstUtils.asList("10000", "20000", "30000", "11111", "33333");
-        List<String> expObj1Field2 = ListstUtils.asList("aaa", "bbb", "ccc", "aaaaa", "bbbbb");
+        List<String> expObj1Field1 = ListsUtils.asList("10000", "20000", "30000", "11111", "33333");
+        List<String> expObj1Field2 = ListsUtils.asList("aaa", "bbb", "ccc", "aaaaa", "bbbbb");
 
         obj1.mergeValuesFrom(obj2);
 
-        ListstUtils.assertListsSimilar(expObj1Field1, obj1.getField1());
-        ListstUtils.assertListsSimilar(expObj1Field2, obj1.getField2());
+        ListsUtils.assertListsSimilar(expObj1Field1, obj1.getField1());
+        ListsUtils.assertListsSimilar(expObj1Field2, obj1.getField2());
     }
 }
