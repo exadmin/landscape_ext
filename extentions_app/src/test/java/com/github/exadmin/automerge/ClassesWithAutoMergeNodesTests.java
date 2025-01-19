@@ -35,15 +35,10 @@ public class ClassesWithAutoMergeNodesTests {
         }
 
         @Override
-        public boolean equals(Object o) {
-            if (o == null || getClass() != o.getClass()) return false;
-            TheSubClass that = (TheSubClass) o;
+        protected boolean allowMergeFrom(AutoMergeable other) {
+            if (other == null || getClass() != other.getClass()) return false;
+            TheSubClass that = (TheSubClass) other;
             return Objects.equals(name, that.name);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(name);
         }
     }
 
@@ -72,6 +67,11 @@ public class ClassesWithAutoMergeNodesTests {
 
         public void setVipChild(TheSubClass vipChild) {
             this.vipChild = vipChild;
+        }
+
+        @Override
+        protected boolean allowMergeFrom(AutoMergeable other) {
+            return false;
         }
     }
 

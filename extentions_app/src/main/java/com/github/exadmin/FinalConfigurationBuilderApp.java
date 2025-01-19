@@ -33,33 +33,40 @@ public class FinalConfigurationBuilderApp {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         // Step1: read original landscape.yml file and fetch Categories & Subcategories
+        String primaryFile = cmdHelper.getValue(CmdLineArgument.PRIMARY_FILE);
+        TheLandscape primaryModel = null;
+        try {
+             primaryModel = mapper.readValue(new File(primaryFile), TheLandscape.class);
+        } catch (Exception ex) {
+            MyLogger.warn("Primary model of landscape2 format can be found/read. Terminating. Exception is " + ex);
+            System.exit(-1);
+        }
+
         String rootDir = cmdHelper.getValue(CmdLineArgument.PATH_TO_SCAN);
         List<String> collectedYamls = FileUtils.findAllFilesRecursively(rootDir, ".yml");
 
         if (collectedYamls.isEmpty()) {
-            MyLogger.error("No *.yml files were found at " + rootDir);
-            System.exit(-1);
+            MyLogger.error("No additional *.yml files were found at " + rootDir);
         }
 
 
         List<TheLandscape> allModels = new ArrayList<>(collectedYamls.size());
         for (String nextFile : collectedYamls) {
             try {
+                MyLogger.debug("Reading additional configuration at " + nextFile);
                 TheLandscape nextModel = mapper.readValue(new File(nextFile), TheLandscape.class);
-                allModels.add(nextModel);
+
+                MyLogger.debug("Merging additional configuration...");
+                primaryModel.mergeValuesFrom(nextModel);
+                MyLogger.debug("Merged");
             } catch (Exception ex) {
                 MyLogger.warn("File can't be read in landscape2 format. Skipping. Exception is " + ex);
             }
         }
 
-        if (allModels.isEmpty()) {
-            MyLogger.error("No valid yml files in landscape2 format is found. Terminating.");
-            System.exit(-1);
-        }
+        String outputFileName = cmdHelper.getValue(CmdLineArgument.OUTPUT_FILE_NAME);
+        MyLogger.debug("Saving result configuration into " + outputFileName);
 
-        // Here we have list of models. We need to merge them into single one and store
-
-        // mapper.writeValue(new File("./testdata/data.yml"), outFileModel);
-
+        mapper.writeValue(new File(outputFileName), primaryModel);
     }
 }

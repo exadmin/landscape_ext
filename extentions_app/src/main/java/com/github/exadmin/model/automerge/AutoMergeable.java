@@ -4,6 +4,8 @@ import com.github.exadmin.utils.MyLogger;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 public abstract class AutoMergeable {
@@ -47,22 +49,36 @@ public abstract class AutoMergeable {
                 List<Object> otherList = (List<Object>) field.get(other);
                 List<Object> thisList = (List<Object>) field.get(this);
 
-                for (Object otherElement : otherList) {
-                    if (!thisList.contains(otherElement)) {
-                        thisList.add(otherElement);
-                    } else {
-                        // if mergeable - then do merge, otherwise - skip
-                        if (otherElement instanceof AutoMergeable) {
-                            for (Object thisElement : thisList) {
-                                if (thisElement.equals(otherElement)) {
-                                    ((AutoMergeable) thisElement).mergeValuesFrom((AutoMergeable) otherElement);
-                                    break;
-                                }
+
+
+                // if List of Automergeable
+                if (isAutoMerable(field)) {
+                    for (Object otherObj : otherList) {
+                        AutoMergeable otherAMObj = (AutoMergeable) otherObj;
+
+                        boolean isMerged = false;
+                        for (Object thisObj : thisList) {
+                            AutoMergeable thisAMObj = (AutoMergeable) thisObj;
+
+                            if (thisAMObj.allowMergeFrom(otherAMObj)) {
+                                thisAMObj.mergeValuesFrom(otherAMObj);
+                                isMerged = true;
+                                break;
                             }
+                        }
+
+                        if (!isMerged) {
+                            thisList.add(otherObj);
+                        }
+                    }
+
+                } else {
+                    for (Object otherObj : otherList) {
+                        if (!thisList.contains(otherObj)) {
+                            thisList.add(otherObj);
                         }
                     }
                 }
-
                 continue;
             }
 
@@ -73,5 +89,18 @@ public abstract class AutoMergeable {
             }
 
         }
+    }
+
+    private static boolean isAutoMerable(Field field) {
+
+        Type type = field.getGenericType();
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType) type;
+            type = pType.getActualTypeArguments()[0];
+        } else {
+            type = field.getType();
+        }
+
+        return AutoMergeable.class.isAssignableFrom((Class<?>) type);
     }
 }

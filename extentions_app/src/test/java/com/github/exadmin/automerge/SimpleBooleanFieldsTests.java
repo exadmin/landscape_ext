@@ -37,6 +37,11 @@ public class SimpleBooleanFieldsTests {
         public Boolean getField3() {
             return field3;
         }
+
+        @Override
+        protected boolean allowMergeFrom(AutoMergeable other) {
+            return false;
+        }
     }
 
     @Test

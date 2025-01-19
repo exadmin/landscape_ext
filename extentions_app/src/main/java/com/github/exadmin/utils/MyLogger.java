@@ -8,4 +8,8 @@ public class MyLogger {
     public static void warn(String msg) {
         System.out.println("WARN : " + msg);
     }
+
+    public static void debug(String msg) {
+        System.out.println("DEBUG: " + msg);
+    }
 }

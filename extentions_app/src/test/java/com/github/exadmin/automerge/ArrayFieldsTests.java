@@ -4,13 +4,7 @@ import com.github.exadmin.model.automerge.AutoMergeable;
 import com.github.exadmin.utils.ListstUtils;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 public class ArrayFieldsTests {
     private static class TheTestClass extends AutoMergeable {
@@ -28,6 +22,11 @@ public class ArrayFieldsTests {
 
         public List<String> getField2() {
             return field2;
+        }
+
+        @Override
+        protected boolean allowMergeFrom(AutoMergeable other) {
+            return false;
         }
     }
 

@@ -1,7 +1,6 @@
 package com.github.exadmin.automerge;
 
 import com.github.exadmin.model.automerge.AutoMergeable;
-import com.github.exadmin.model.automerge.IgnoreWhenAutoMerging;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -36,6 +35,11 @@ public class SimpleNumberFieldsTests {
 
         public Number getField4() {
             return field4;
+        }
+
+        @Override
+        protected boolean allowMergeFrom(AutoMergeable other) {
+            return false;
         }
     }
 
