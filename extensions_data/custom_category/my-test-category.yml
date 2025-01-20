@@ -1,8 +1,0 @@
----
-category:
-  name: My Custom Category Name
-  order: 
-    - after: "Provisioning"
-    - after: "Someother"
-    - before: ANY
-    - before: ANY
