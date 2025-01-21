@@ -9,8 +9,11 @@ As a side effect (somewhere positive, somewhere negative) the model of landscape
 in this configurator application, so all unknown model items will be ignored. This brings stability and backward compatibility
 by require configurator application to support new items.
 
-## How to builb
+## How to build
+```
 mvn clean package
+sudo docker build . -t \${name}:\${version}
+```
 
 ## How to use
 java -jar configurator.jar
