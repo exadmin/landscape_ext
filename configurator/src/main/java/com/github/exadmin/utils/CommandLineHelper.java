@@ -56,7 +56,7 @@ public class CommandLineHelper {
 
         if (isErrorExist) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("java -jar FinalConfigurationBuilderApp.jar", options);
+            formatter.printHelp("java -jar configurator.jar", options);
 
             return false;
         }

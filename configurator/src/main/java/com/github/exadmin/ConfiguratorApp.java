@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FinalConfigurationBuilderApp {
+public class ConfiguratorApp {
     public static void main(String[] args) throws Exception {
         // Generic algorithm:
         // Step1: read all *.yml files and try them as landscape2-formatted file
