@@ -1,0 +1,30 @@
+services:
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    hostname: certbot
+    env_file:
+      - .env
+    volumes:
+      - ./data/ssl:/etc/letsencrypt
+    ports:
+      - "80:80"
+    command: certonly --non-interactive --keep-until-expiring --standalone --preferred-challenges http --agree-tos --email ${USER_EMAIL} -d ${SRV_CN}
+
+  landscape:
+    depends_on:
+      certbot:
+        condition: service_completed_successfully
+
+    build: .
+    image: mylandscape
+    container_name: mylandscape
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    hostname: mylandscape
+    env_file:
+      - .env
+    ports:
+      - "80:80/tcp"
