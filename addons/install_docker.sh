@@ -25,6 +25,8 @@ fi
 
 # Preparing folders for Let's Encrypt certificates
 mkdir -p ./data/ssl
+mkdir -p ./data/ls-data/logos
+mkdir -p ./data/tmp
 
 # Create symlinks to files & folders outside current folder - to enrich docker context
 cp ./../landscape.yml ./data/tmp/landscape.yml
