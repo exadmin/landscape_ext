@@ -12,11 +12,10 @@ services:
       - "80:80"
     command: certonly --non-interactive --keep-until-expiring --standalone --preferred-challenges http --agree-tos --email ${USER_EMAIL} -d ${SRV_CN}
 
-  landscape:
+  mylandscape:
     depends_on:
       certbot:
         condition: service_completed_successfully
-
     build: .
     image: mylandscape
     container_name: mylandscape
@@ -28,3 +27,5 @@ services:
       - .env
     ports:
       - "80:80/tcp"
+    volumes:
+      - ./data/ls-data:/home/landscape2/ls-data

@@ -14,9 +14,8 @@ fi
 docker --version
 
 
-
 # Install Docker Compose if required
-if [ -x "$(command -v docker)" ]; then
+if [ -x "$(command -v docker-compose)" ]; then
     echo "Docker-compose is installed already."
 else
     echo "Installing docker-compose..."
@@ -24,7 +23,10 @@ else
   sudo chmod +x /usr/local/bin/docker-compose
 fi
 
-docker-compose --version
-
-# Preparing folders
+# Preparing folders for Let's Encrypt certificates
 mkdir -p ./data/ssl
+
+# Create symlinks to files & folders outside current folder - to enrich docker context
+cp ./../landscape.yml ./data/tmp/landscape.yml
+cp -rv --update=older ./../hosted_logos ./data/ls-data/logos
+sudo docker compose --file ./compose.yml up
