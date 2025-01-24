@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check this script is running under root
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
 # Installing docker if required
 if [ -x "$(command -v docker)" ]; then
     echo "Docker is installed already."
@@ -12,7 +18,6 @@ else
 fi
 
 docker --version
-
 
 # Install Docker Compose if required
 if [ -x "$(command -v docker-compose)" ]; then
