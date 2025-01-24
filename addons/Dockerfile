@@ -30,7 +30,7 @@ COPY extra_yamls/settings_override.yml /home/landscape2/my-landscape/settings.ym
 COPY --from=builder /tmp/cncf_config/result.yml /home/landscape2/my-landscape/data.yml
 # COPY hosted_logos /home/landscape2/my-landscape/logos
 WORKDIR /home/landscape2/my-landscape
-RUN landscape2 build --data-file data.yml --settings-file settings.yml --guide-file guide.yml --logos-path /home/landscape2/logos --output-dir build
+RUN landscape2 build --data-file data.yml --settings-file settings.yml --guide-file guide.yml --logos-path /home/landscape2/ls-data/logos --output-dir build
 
 ## todo make new clear stage
 WORKDIR /home/landscape2/my-landscape

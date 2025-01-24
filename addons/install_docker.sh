@@ -35,5 +35,5 @@ mkdir -p ./data/tmp
 
 # Create symlinks to files & folders outside current folder - to enrich docker context
 cp ./../landscape.yml ./data/tmp/landscape.yml
-cp -rv --update=older ./../hosted_logos ./data/ls-data/logos
-sudo docker compose --file ./compose.yml up
+cp -rv --update=older ./../hosted_logos/* ./data/ls-data/logos
+sudo docker compose --file ./compose.yml up --detach
