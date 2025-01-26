@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Common algo
+# 1. load env variables & ensure they have correct values
+# 2. change default values in $DATA_PATH/nginx/default.conf
+# 3. copy default.conf file into NGINX container during startup
+# 4. copy $DATA_PATH/certbot/conf/options-ssl-nginx.conf into CERTBOT container
+# 5. copy $DATA_PATH/certbot/conf/ssl-dhparams.pem into CERTBOT container
+# 6. start CERTBOT container in renew-if-needed mode
+# 7. start NGINX container
+# 8. start MYLANDSCAPE container
+
+
 # Check this script is running under root
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
@@ -28,18 +39,5 @@ mkdir -p $DATA_PATH/nginx
 [ -e $DATA_PATH/nginx/default.conf ] && rm $DATA_PATH/nginx/default.conf
 cp ./addons/nginx/default.conf $DATA_PATH/nginx/default.conf
 sed -i "s/example.org/$SRV_CN/g" $DATA_PATH/nginx/default.conf
-
-
-rsa_key_size=4096
-
-
-
-if [ ! -e "$DATA_PATH/certbot/conf/options-ssl-nginx.conf" ] || [ ! -e "$DATA_PATH/certbot/conf/ssl-dhparams.pem" ]; then
-  echo "### Downloading recommended TLS parameters ..."
-  mkdir -p "$DATA_PATH/certbot/conf"
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "$DATA_PATH/certbot/conf/options-ssl-nginx.conf"
-  curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$DATA_PATH/certbot/conf/ssl-dhparams.pem"
-  echo
-fi
 
 docker compose up -d

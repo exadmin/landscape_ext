@@ -12,13 +12,14 @@ services:
       - var-www-html-volume:/var/www/html:rw
     # command: certonly --non-interactive --keep-until-expiring --standalone --preferred-challenges http --agree-tos --email ${USER_EMAIL} -d ${SRV_CN}
     # original: entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certonly --non-interactive --keep-until-expiring --standalone --preferred-challenges http --agree-tos --email ${USER_EMAIL} -d ${SRV_CN}; sleep 12h & wait $${!}; done;'"
+    # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certonly --non-interactive --keep-until-expiring --standalone --preferred-challenges http --agree-tos --email ${USER_EMAIL} -d ${SRV_CN}; sleep 12h & wait $${!}; done;'"
+    command: certonly --non-interactive --keep-until-expiring --standalone --preferred-challenges http --webroot --webroot-path=/var/www/html --email $USER_EMAIL --agree-tos --no-eff-email --staging -d $SRV_CN
 
   nginx:
     image: nginx
     depends_on:
       certbot:
-        condition: service_started
+        condition: service_completed_successfully
     restart: unless-stopped
     volumes:
       - ${DATA_PATH}/nginx:/etc/nginx/conf.d:ro
@@ -27,12 +28,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    # command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
   mylandscape:
     depends_on:
-      certbot:
-        condition: service_started
       nginx:
         condition: service_started
     build: .
