@@ -19,8 +19,6 @@ services:
     container_name: mylandscape
     restart: unless-stopped
     hostname: mylandscape
-    env_file:
-      - .env
     ports:
       - "8888:80/tcp"
     volumes:

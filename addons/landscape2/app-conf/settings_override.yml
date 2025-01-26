@@ -7,7 +7,7 @@
 foundation: DEMO
 
 # todo: need to be configurable
-url: http://127.0.0.1:9999
+url: https://landscape.qubership.org
 
 colors:
   color1: "rgba(0, 107, 204, 1)"

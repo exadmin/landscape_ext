@@ -13,4 +13,4 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 # Run docker compose configuration
-docker compose up -d -f ./compose.yml
+docker compose -f ./compose.yml up -d
