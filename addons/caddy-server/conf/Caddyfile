@@ -1,0 +1,9 @@
+{
+    email smirnovi.qubership@gmail.com
+}
+
+landscape.qubership.org {
+    reverse_proxy http://mylandscape:80 {
+        header_up Host {upstream_hostport}
+      }
+}

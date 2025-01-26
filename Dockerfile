@@ -10,7 +10,7 @@ RUN mkdir -p /tmp/cncf_config
 RUN cp /tmp/build/target/configurator.jar /tmp/cncf_config/configurator.jar
 
 # merge extra configurations into main landscape.yml
-COPY addons/extra_yamls /tmp/cncf_config/extra_yamls
+COPY addons/landscape2/landscape-conf /tmp/cncf_config/extra_yamls
 COPY landscape.yml /tmp/cncf_config
 
 WORKDIR /tmp/cncf_config
@@ -25,7 +25,7 @@ USER landscape2
 WORKDIR /home/landscape2
 
 RUN landscape2 new --output-dir my-landscape
-COPY addons/extra_yamls/settings_override.yml /home/landscape2/my-landscape/settings.yml
+COPY addons/landscape2/app-conf/settings_override.yml /home/landscape2/my-landscape/settings.yml
 COPY --from=builder /tmp/cncf_config/result.yml /home/landscape2/my-landscape/data.yml
 COPY hosted_logos /home/landscape2/my-landscape/logos
 
