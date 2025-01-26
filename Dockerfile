@@ -25,13 +25,14 @@ USER landscape2
 WORKDIR /home/landscape2
 
 RUN landscape2 new --output-dir my-landscape
-COPY addons/landscape2/app-conf/settings_override.yml /home/landscape2/my-landscape/settings.yml
-COPY --from=builder /tmp/cncf_config/result.yml /home/landscape2/my-landscape/data.yml
-COPY hosted_logos /home/landscape2/my-landscape/logos
+COPY --chown=landscape2 addons/landscape2/app-conf/settings_override.yml /home/landscape2/my-landscape/settings.yml
+COPY --chown=landscape2 --from=builder /tmp/cncf_config/result.yml /home/landscape2/my-landscape/data.yml
+COPY --chown=landscape2 hosted_logos /home/landscape2/my-landscape/logos
 
 WORKDIR /home/landscape2/my-landscape
-RUN landscape2 build --data-file data.yml --settings-file settings.yml --guide-file guide.yml --logos-path /home/landscape2/logos --output-dir build
+RUN landscape2 build --data-file data.yml --settings-file settings.yml --guide-file guide.yml --logos-path logos --output-dir build
 
-## todo make new clear stage
+## todo make new clear stage (only build directory is needed)
+
 WORKDIR /home/landscape2/my-landscape
 ENTRYPOINT ["landscape2", "serve", "--addr", "0.0.0.0:80", "--landscape-dir", "build"]
