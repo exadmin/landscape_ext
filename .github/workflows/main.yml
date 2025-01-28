@@ -9,8 +9,8 @@ jobs:
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HOST }}
-          username: gituser
-          password: ${{ secrets.PASSWORD }}
+          username: ubuntu
+          key: ${{ secrets.KEY }}
           port: 22
           script: |
             whoami
