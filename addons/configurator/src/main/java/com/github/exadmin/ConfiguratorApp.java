@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.github.exadmin.model.landscapefile.TheCategory;
+import com.github.exadmin.model.landscapefile.TheItem;
 import com.github.exadmin.model.landscapefile.TheLandscape;
+import com.github.exadmin.model.landscapefile.TheSubCategory;
 import com.github.exadmin.utils.CmdLineArgument;
 import com.github.exadmin.utils.CommandLineHelper;
 import com.github.exadmin.utils.FileUtils;
@@ -79,6 +82,32 @@ public class ConfiguratorApp {
         String outputFileName = cmdHelper.getValue(CmdLineArgument.OUTPUT_FILE_NAME);
         MyLogger.debug("Saving result configuration into " + outputFileName);
 
+        // Provide some statistics about new result file for debug aims
+        printReport(primaryModel);
+
         mapper.writeValue(new File(outputFileName), primaryModel);
+    }
+
+    private static void printReport(TheLandscape model) {
+        int countCategories = 0;
+        int countSubCategories = 0;
+        int countItems = 0;
+
+        for (TheCategory cat : model.getCategories()) {
+            countCategories++;
+
+            for (TheSubCategory subCat : cat.getSubcategories()) {
+                countSubCategories++;
+
+                for (TheItem item : subCat.getItemList()) {
+                    countItems++; // todo: yeah... better without iteration, just to use getItemsList().size()... but - no matter now
+                }
+            }
+        }
+
+        MyLogger.debug("Summary:");
+        MyLogger.debug("    Categories count: " + countCategories);
+        MyLogger.debug("    SubCategories count: " + countSubCategories);
+        MyLogger.debug("    Items count: " + countItems);
     }
 }

@@ -14,11 +14,9 @@ fi
 
 # Run docker compose configuration
 
-# stop all containers
-docker stop $(docker ps -a -q)
+## stop all containers
+sudo docker stop $(sudo docker ps -a -q)
+sudo docker system prune --all --force
 
-# remove all containers
-docker rm $(docker ps -a -q)
-
-# restart build
-docker compose -f ./compose.yml up -d
+## restart build
+sudo docker compose -f ./compose.yml up -d --force-recreate
