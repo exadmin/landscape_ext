@@ -13,5 +13,5 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            whoami
-            ls -la
+            cd /home/ubuntu/landscape_ext
+            sudo run.sh
