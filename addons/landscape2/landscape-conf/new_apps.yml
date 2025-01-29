@@ -30,7 +30,12 @@ landscape:
         name: Key Management
         items:
           - item:
-            name: Some new application name 2
+            name: Test Application Item 1
+            homepage_url: https://example.com
+            repo_url: https://example.com
+            logo: airship.svg
+          - item:
+            name: Test Application Item 2
             homepage_url: https://example.com
             repo_url: https://example.com
             logo: airship.svg
