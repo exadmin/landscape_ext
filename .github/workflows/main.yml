@@ -19,4 +19,4 @@ jobs:
             sudo rm -rf landscape_ext
             git clone https://github.com/exadmin/landscape_ext.git
             cd /home/ubuntu/landscape_ext
-            sudo docker compose -f ./compose.yml up -d
+            sudo docker compose --progress plain -f ./compose.yml up -d
