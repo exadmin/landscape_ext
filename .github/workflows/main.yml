@@ -14,4 +14,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /home/ubuntu/landscape_ext
-            sudo run.sh
+            sudo ./run.sh
