@@ -13,4 +13,12 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 # Run docker compose configuration
+
+# stop all containers
+docker stop $(docker ps -a -q)
+
+# remove all containers
+docker rm $(docker ps -a -q)
+
+# restart build
 docker compose -f ./compose.yml up -d
