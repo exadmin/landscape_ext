@@ -30,12 +30,26 @@ landscape:
         name: Key Management
         items:
           - item:
-            name: Test Application Item 1
+            name: Test Graduated Project
             homepage_url: https://example.com
             repo_url: https://example.com
             logo: airship.svg
+            project: graduated
           - item:
-            name: Test Application Item 2
+            name: Test Incubating Project
             homepage_url: https://example.com
             repo_url: https://example.com
             logo: airship.svg
+            project: incubating
+          - item:
+            name: Test Sandbox Project
+            homepage_url: https://example.com
+            repo_url: https://example.com
+            logo: airship.svg
+            project: sandbox
+          - item:
+            name: Test Archived Project
+            homepage_url: https://example.com
+            repo_url: https://example.com
+            logo: airship.svg
+            project: archived
