@@ -33,8 +33,8 @@ public abstract class AutoMergeable {
     private void mergeFromThrowException(AutoMergeable other) throws IllegalAccessException {
         Field[] fields = this.getClass().getDeclaredFields();
         for (Field field : fields) {
-            Annotation anno = field.getAnnotation(IgnoreWhenAutoMerging.class);
-            if (anno != null) continue;
+            Annotation anIgnore = field.getAnnotation(IgnoreWhenAutoMerging.class);
+            if (anIgnore != null) continue;
 
             // if simple field is found
             String className = field.getType().toString();
@@ -42,7 +42,17 @@ public abstract class AutoMergeable {
 
             if (className.startsWith("class java.lang.")) {
                 Object otherValue = field.get(other);
-                field.set(this, otherValue);
+
+                // check if field is marked with @Concatenate annotation
+                Annotation anConcat = field.getAnnotation(ConcatenateWhenMerge.class);
+                if (anConcat == null) {
+                    field.set(this, otherValue);
+                } else {
+                    Object thisValue = field.get(this);
+                    String thisStrValue = (thisValue == null ? "" : thisValue + " ");
+                    String thatStrValue = otherValue == null ? "" : otherValue.toString();
+                    field.set(this, thisStrValue  + thatStrValue);
+                }
                 continue;
             }
 

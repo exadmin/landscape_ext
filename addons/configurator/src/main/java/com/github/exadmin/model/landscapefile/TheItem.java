@@ -3,6 +3,7 @@ package com.github.exadmin.model.landscapefile;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.exadmin.model.automerge.AutoMergeable;
+import com.github.exadmin.model.automerge.ConcatenateWhenMerge;
 import com.github.exadmin.model.automerge.IgnoreWhenAutoMerging;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class TheItem extends AutoMergeable {
     private String name;
 
     @JsonProperty("description")
+    @ConcatenateWhenMerge
     private String description;
 
     @JsonProperty("homepage_url")

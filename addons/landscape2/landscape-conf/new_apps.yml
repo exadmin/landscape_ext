@@ -55,5 +55,15 @@ landscape:
           - item:
             name: SPIFFE
             homepage_url: https://example.com
+            description: This is additional description added from extra-config
             logo: aaa.svg
             project: DROP
+          - item:
+            name: Athenz
+            homepage_url: https://example.com
+            description: >-
+              This is additional description added from extra-config<p>
+              And this is a really <b>multiline</b><br>
+              Description<br>
+              New Line here
+            logo: athenz.svg
