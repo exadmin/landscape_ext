@@ -50,6 +50,10 @@ landscape:
           - item:
             name: Test Archived Project
             homepage_url: https://example.com
-            repo_url: https://example.com
             logo: airship.svg
             project: archived
+          - item:
+            name: SPIFFE
+            homepage_url: https://example.com
+            logo: aaa.svg
+            project: DROP

@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/cncf/landscape2/refs/heads/main/docs/config/schema/data.schema.json
+
+landscape:
+  - category:
+    name: Provisioning
+    subcategories:
+      - subcategory:
+        name: Security & Compliance
+        items:
+          - item:
+            name: Qubership Integration Platform (White)
+            homepage_url: https://example.com
+            repo_url: https://example.com
+            logo: qip-logo-white.png
+          - item:
+            name: Qubership Integration Platform (Black)
+            homepage_url: https://example.com
+            repo_url: https://example.com
+            logo: qip-logo-black.png
+          - item:
+            name: Identity Provider
+            homepage_url: https://example.com
+            repo_url: https://example.com
+            logo: nc-id-red.png

@@ -50,8 +50,6 @@ public abstract class AutoMergeable {
                 List<Object> otherList = (List<Object>) field.get(other);
                 List<Object> thisList = (List<Object>) field.get(this);
 
-
-
                 // if List of Automergeable
                 if (isAutoMergeable(field)) {
                     if (otherList == null) continue;

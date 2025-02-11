@@ -4,18 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.github.exadmin.model.landscapefile.TheCategory;
-import com.github.exadmin.model.landscapefile.TheItem;
-import com.github.exadmin.model.landscapefile.TheLandscape;
-import com.github.exadmin.model.landscapefile.TheSubCategory;
-import com.github.exadmin.utils.CmdLineArgument;
-import com.github.exadmin.utils.CommandLineHelper;
-import com.github.exadmin.utils.FileUtils;
-import com.github.exadmin.utils.MyLogger;
+import com.github.exadmin.model.landscapefile.*;
+import com.github.exadmin.utils.*;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ConfiguratorApp {
     public static void main(String[] args) throws Exception {
@@ -52,7 +47,7 @@ public class ConfiguratorApp {
         List<String> collectedYamls = FileUtils.findAllFilesRecursively(rootDir, ".yml");
 
         if (collectedYamls.isEmpty()) {
-            MyLogger.error("No additional *.yml files were found at " + rootDir);
+            MyLogger.warn("No additional *.yml files were found at " + rootDir);
         }
 
         // We should skip primary file which may be collected in PATH_TO_SCAN dir
@@ -74,10 +69,14 @@ public class ConfiguratorApp {
                 primaryModel.mergeValuesFrom(nextModel);
                 MyLogger.debug("Merged");
             } catch (Exception ex) {
-                MyLogger.warn("File can't be read in landscape2 format. Skipping. Exception is " + ex);
+                MyLogger.warn("File can't be read in landscape2 format. Terminating. Exception is " + ex);
                 ex.printStackTrace();
+                System.exit(-1);
             }
         }
+
+        // remove items which must be dropped
+        TheModelsUtils.removeDroppedItems(primaryModel);
 
         String outputFileName = cmdHelper.getValue(CmdLineArgument.OUTPUT_FILE_NAME);
         MyLogger.debug("Saving result configuration into " + outputFileName);
@@ -110,4 +109,6 @@ public class ConfiguratorApp {
         MyLogger.debug("    SubCategories count: " + countSubCategories);
         MyLogger.debug("    Items count: " + countItems);
     }
+
+
 }
